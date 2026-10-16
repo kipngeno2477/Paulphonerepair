@@ -7,7 +7,51 @@ import oraimoWatch from '../assets/electronics/oraimo-watch.jpg';
 import nokia106 from '../assets/electronics/nokia-106.jpg';
 import jblBoombox from '../assets/electronics/jbl-boombox-4.jpg';
 
+// Newly added WhatsApp images for shop products (Car audio, custom sound consoles & amplifiers)
+import waSoundRigGreen from '../assets/WhatsApp Image 2026-10-16 at 22.38.51.jpeg';
+import waSoundRigPurple from '../assets/WhatsApp Image 2026-10-16 at 22.38.52.jpeg';
+import waMediaDeckAmp from '../assets/WhatsApp Image 2026-10-16 at 22.38.53.jpeg';
+
 export const products = [
+  {
+    id: "PPC-1009",
+    name: "Njuguna Sounds - Pioneer Stereo & Boschmann Equalizer Custom Rig (Green LED)",
+    category: "Sound Systems & Car Audio",
+    price: 9500,
+    originalPrice: 12000,
+    description: "Custom-built car audio stereo & sound box featuring DV-Pioneer DK player (Bluetooth A2DP, USB, FM, TF card, MP3) with Boschmann graphic equalizer, multi-channel sound controls, and vibrant green illumination. Built and tuned at Langas Studio.",
+    image: waSoundRigGreen,
+    inStock: true,
+    rating: 5.0,
+    reviews: 18,
+    featured: true
+  },
+  {
+    id: "PPC-1010",
+    name: "Njuguna Sounds - Pioneer Bluetooth Stereo & Pro Equalizer (Purple Neon)",
+    category: "Sound Systems & Car Audio",
+    price: 9500,
+    originalPrice: 14000,
+    description: "High-performance custom audio console with Pioneer media receiver and Boschmann graphic equalizer. Features multi-color neon illumination, front USB/SD/Bluetooth input, RCA output, and deep bass tuning. Call/WhatsApp 0743220999.",
+    image: waSoundRigPurple,
+    inStock: true,
+    rating: 4.9,
+    reviews: 23,
+    featured: true
+  },
+  {
+    id: "PPC-1011",
+    name: "DV-Pioneer DK Custom Bluetooth Media Deck & Amplifier System",
+    category: "Sound Systems & Car Audio",
+    price: 7500,
+    originalPrice: 11500,
+    description: "Custom workshop-engineered Bluetooth audio amplifier station with MP3/USB/TF/FM module, front RCA input ports, multi-potentiometer audio gain and frequency knobs. Ideal for home audio, matatus, shops, or car setups.",
+    image: waMediaDeckAmp,
+    inStock: true,
+    rating: 4.8,
+    reviews: 14,
+    featured: true
+  },
   {
     id: "PPC-1001",
     name: "Samsung Galaxy A14",
@@ -103,16 +147,16 @@ export const products = [
 
 export const categories = [
   "All",
+  "Sound Systems & Car Audio",
   "Smartphones",
+  "Speakers",
+  "Headphones & Earphones",
+  "Smart Watches",
   "Laptops",
   "TVs",
-  "Headphones & Earphones",
-  "Speakers",
   "Chargers & Cables",
   "Power Banks",
-  "Smart Watches",
   "Computer Accessories",
-  "Cameras",
   "Gaming Accessories",
   "Phone Accessories"
 ];

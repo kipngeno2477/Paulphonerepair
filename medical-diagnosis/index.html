@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Symptom Checker & Disease Diagnosis System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="medical-icon">⚕️</span>
+                <h1>Medical Diagnosis System</h1>
+            </div>
+            <p class="tagline">AI-Powered Symptom Analysis & Disease Detection</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Patient Information -->
+            <section class="card">
+                <h2>👤 Patient Information</h2>
+                <form id="patientForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Patient ID</label>
+                            <input type="text" id="patientId" placeholder="Auto-generated" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="patientName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age *</label>
+                            <input type="number" id="patientAge" min="0" max="120" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender *</label>
+                            <select id="patientGender" required>
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="patientWeight" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label>Temperature (°C)</label>
+                            <input type="number" id="patientTemp" step="0.1" placeholder="e.g., 37.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Pressure</label>
+                            <input type="text" id="patientBP" placeholder="e.g., 120/80">
+                        </div>
+                        <div class="form-group">
+                            <label>Heart Rate (bpm)</label>
+                            <input type="number" id="patientHR" placeholder="e.g., 72">
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Symptom Selection -->
+            <section class="card">
+                <h2>🔍 Select Symptoms</h2>
+                <p class="info-text">Choose all symptoms the patient is experiencing</p>
+                
+                <div class="symptom-search">
+                    <input type="text" id="symptomSearch" placeholder="🔎 Search symptoms...">
+                </div>
+
+                <div class="symptom-categories">
+                    <button class="category-btn active" data-category="all">All Symptoms</button>
+                    <button class="category-btn" data-category="general">General</button>
+                    <button class="category-btn" data-category="respiratory">Respiratory</button>
+                    <button class="category-btn" data-category="digestive">Digestive</button>
+                    <button class="category-btn" data-category="neurological">Neurological</button>
+                    <button class="category-btn" data-category="skin">Skin</button>
+                    <button class="category-btn" data-category="cardiovascular">Cardiovascular</button>
+                    <button class="category-btn" data-category="musculoskeletal">Musculoskeletal</button>
+                </div>
+
+                <div id="symptomList" class="symptom-grid"></div>
+
+                <div class="selected-symptoms" id="selectedSymptomsContainer" style="display: none;">
+                    <h3>Selected Symptoms:</h3>
+                    <div id="selectedSymptoms" class="selected-symptoms-list"></div>
+                </div>
+            </section>
+
+            <!-- Additional Information -->
+            <section class="card">
+                <h2>📝 Additional Information</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Duration of Symptoms</label>
+                        <select id="symptomDuration">
+                            <option value="less-than-day">Less than 24 hours</option>
+                            <option value="1-3-days">1-3 days</option>
+                            <option value="4-7-days">4-7 days</option>
+                            <option value="1-2-weeks">1-2 weeks</option>
+                            <option value="more-than-2-weeks">More than 2 weeks</option>
+                            <option value="chronic">Chronic (months/years)</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Medical History (Pre-existing conditions)</label>
+                        <textarea id="medicalHistory" rows="3" placeholder="e.g., Diabetes, Hypertension, Asthma..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Current Medications</label>
+                        <textarea id="currentMedications" rows="3" placeholder="List any medications currently taking..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Additional Notes</label>
+                        <textarea id="additionalNotes" rows="3" placeholder="Any other relevant information..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analyze Button -->
+            <div class="analyze-section">
+                <button class="btn-analyze" onclick="analyzeSymptomsAndDiagnose()">
+                    🔬 Analyze Symptoms & Diagnose
+                </button>
+            </div>
+
+            <!-- Diagnosis Results -->
+            <section class="card" id="diagnosisResults" style="display: none;">
+                <h2>📋 Diagnosis Results</h2>
+                <div id="diagnosisContent"></div>
+            </section>
+
+            <!-- Recommendations -->
+            <section class="card" id="recommendationsSection" style="display: none;">
+                <h2>💊 Treatment Recommendations</h2>
+                <div id="recommendationsContent"></div>
+            </section>
+
+            <!-- History -->
+            <section class="card">
+                <h2>📚 Patient History</h2>
+                <div class="history-controls">
+                    <input type="text" id="historySearch" placeholder="🔎 Search patient history...">
+                    <button class="btn-secondary" onclick="loadPatientHistory()">🔄 Refresh</button>
+                    <button class="btn-secondary" onclick="exportHistory()">📥 Export</button>
+                </div>
+                <div id="patientHistory"></div>
+            </section>
+        </main>
+
+        <!-- Medical Disclaimer -->
+        <div class="disclaimer">
+            <strong>⚠️ Medical Disclaimer:</strong> This is an AI-assisted diagnostic tool for educational and preliminary assessment purposes. 
+            It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider 
+            for proper medical evaluation and treatment.
+        </div>
+    </div>
+
+    <!-- Print Report Modal -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content report-modal">
+            <div class="modal-header">
+                <h2>📄 Medical Report</h2>
+                <span class="close" onclick="closeReportModal()">&times;</span>
+            </div>
+            <div id="reportContent"></div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="printReport()">🖨️ Print</button>
+                <button class="btn-secondary" onclick="downloadReport()">💾 Download PDF</button>
+                <button class="btn-secondary" onclick="closeReportModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="symptoms-database.js"></script>
+    <script src="disease-database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

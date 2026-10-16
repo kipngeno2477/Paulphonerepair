@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINIX SOFTWARE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1>📚 Attendance System</h1>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-item active" data-view="dashboard">Dashboard</button>
+                <button class="nav-item" data-view="mark-attendance">Mark Attendance</button>
+                <button class="nav-item" data-view="schedule">Schedule</button>
+                <button class="nav-item" data-view="reports">Reports</button>
+                <button class="nav-item" data-view="students">Students</button>
+                <button class="nav-item" data-view="courses">Courses</button>
+                <button class="nav-item" data-view="notifications">Notifications</button>
+            </div>
+            <div class="sync-status">
+                <span id="syncStatus">🔄 Syncing...</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view active">
+                <div class="view-header">
+                    <h2>Dashboard</h2>
+                    <p id="currentDateTime"></p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👨‍🎓</div>
+                        <div class="stat-info">
+                            <h3 id="totalStudents">0</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📖</div>
+                        <div class="stat-info">
+                            <h3 id="totalCourses">0</h3>
+                            <p>Total Courses</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3 id="todayPresent">0</h3>
+                            <p>Present Today</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❌</div>
+                        <div class="stat-info">
+                            <h3 id="todayAbsent">0</h3>
+                            <p>Absent Today</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="card">
+                        <h3>📅 Today's Classes</h3>
+                        <div id="todayClasses"></div>
+                    </div>
+                    <div class="card">
+                        <h3>🔔 Upcoming Classes</h3>
+                        <div id="upcomingClasses"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Recent Attendance</h3>
+                    <div id="recentAttendance"></div>
+                </div>
+            </div>
+
+            <!-- Mark Attendance View -->
+            <div id="mark-attendance-view" class="view">
+                <div class="view-header">
+                    <h2>Mark Attendance</h2>
+                    <p>Record student attendance for classes</p>
+                </div>
+
+                <div class="card">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="attendanceCourse">Select Course</label>
+                                <select id="attendanceCourse">
+                                    <option value="">-- Select Course --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceDate">Date</label>
+                                <input type="date" id="attendanceDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceTime">Time Slot</label>
+                                <select id="attendanceTime">
+                                    <option value="">-- Select Time --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="loadStudentsForAttendance()">
+                            Load Students
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" id="attendanceStudentsList" style="display: none;">
+                    <div class="attendance-controls">
+                        <h3>Students Enrolled</h3>
+                        <div class="bulk-actions">
+                            <button class="btn btn-success" onclick="markAllPresent()">✓ Mark All Present</button>
+                            <button class="btn btn-danger" onclick="markAllAbsent()">✗ Mark All Absent</button>
+                        </div>
+                    </div>
+                    <div id="studentsAttendanceList"></div>
+                    <button class="btn btn-primary btn-large" onclick="submitAttendance()">
+                        💾 Submit Attendance
+                    </button>
+                </div>
+            </div>
+
+            <!-- Schedule View -->
+            <div id="schedule-view" class="view">
+                <div class="view-header">
+                    <h2>Class Schedule</h2>
+                    <button class="btn btn-primary" onclick="showAddScheduleModal()">
+                        + Add Schedule
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="schedule-filter">
+                        <select id="scheduleFilterDay">
+                            <option value="">All Days</option>
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                        </select>
+                    </div>
+                    <div id="scheduleList"></div>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="reports-view" class="view">
+                <div class="view-header">
+                    <h2>Attendance Reports</h2>
+                    <p>Generate and view attendance reports</p>
+                </div>
+
+                <div class="card">
+                    <h3>Generate Report</h3>
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportType">Report Type</label>
+                                <select id="reportType">
+                                    <option value="student">By Student</option>
+                                    <option value="course">By Course</option>
+                                    <option value="date">By Date Range</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportStudent">Student</label>
+                                <select id="reportStudent">
+                                    <option value="">-- Select Student --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reportCourse">Course</label>
+                                <select id="reportCourse">
+                                    <option value="">-- Select Course --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportStartDate">Start Date</label>
+                                <input type="date" id="reportStartDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="reportEndDate">End Date</label>
+                                <input type="date" id="reportEndDate">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            📊 Generate Report
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportReport()">
+                            📥 Export to CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" id="reportResults" style="display: none;">
+                    <h3>Report Results</h3>
+                    <div id="reportContent"></div>
+                </div>
+            </div>
+
+            <!-- Students View -->
+            <div id="students-view" class="view">
+                <div class="view-header">
+                    <h2>Students Management</h2>
+                    <button class="btn btn-primary" onclick="showAddStudentModal()">
+                        + Add Student
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="search-box">
+                        <input type="text" id="studentSearch" placeholder="🔍 Search students...">
+                    </div>
+                    <div id="studentsList"></div>
+                </div>
+            </div>
+
+            <!-- Courses View -->
+            <div id="courses-view" class="view">
+                <div class="view-header">
+                    <h2>Courses Management</h2>
+                    <button class="btn btn-primary" onclick="showAddCourseModal()">
+                        + Add Course
+                    </button>
+                </div>
+
+                <div id="coursesList"></div>
+            </div>
+
+            <!-- Notifications View -->
+            <div id="notifications-view" class="view">
+                <div class="view-header">
+                    <h2>📢 Student Notifications</h2>
+                    <p>Send notifications to students about classes and attendance</p>
+                </div>
+
+                <div class="notification-cards">
+                    <div class="card">
+                        <h3>🔔 Class Reminders</h3>
+                        <p>Automatically notify students before their classes start</p>
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="autoRemindersEnabled" onchange="toggleAutoReminders()">
+                                    Enable Automatic Class Reminders
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Remind students (minutes before class)</label>
+                                <select id="reminderTime">
+                                    <option value="5">5 minutes</option>
+                                    <option value="10">10 minutes</option>
+                                    <option value="15" selected>15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Notification Methods</label>
+                                <div style="display: flex; gap: 20px;">
+                                    <label>
+                                        <input type="checkbox" id="notifyEmail" checked>
+                                        📧 Email
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="notifySMS" checked>
+                                        📱 SMS
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="notifyInApp" checked>
+                                        🔔 In-App
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>📨 Send Manual Notification</h3>
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label>Select Recipients</label>
+                                <select id="notificationRecipients">
+                                    <option value="all">All Students</option>
+                                    <option value="course">By Course</option>
+                                    <option value="year">By Year</option>
+                                    <option value="individual">Individual Student</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="courseSelectGroup" style="display: none;">
+                                <label>Select Course</label>
+                                <select id="notificationCourse"></select>
+                            </div>
+                            <div class="form-group" id="yearSelectGroup" style="display: none;">
+                                <label>Select Year</label>
+                                <select id="notificationYear">
+                                    <option value="1">Year 1</option>
+                                    <option value="2">Year 2</option>
+                                    <option value="3">Year 3</option>
+                                    <option value="4">Year 4</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="studentSelectGroup" style="display: none;">
+                                <label>Select Student</label>
+                                <select id="notificationStudent"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Notification Type</label>
+                                <select id="notificationType">
+                                    <option value="class-reminder">Class Reminder</option>
+                                    <option value="class-cancel">Class Cancellation</option>
+                                    <option value="class-change">Class Time/Room Change</option>
+                                    <option value="attendance-alert">Attendance Alert</option>
+                                    <option value="custom">Custom Message</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="customMessageGroup" style="display: none;">
+                                <label>Subject</label>
+                                <input type="text" id="notificationSubject" placeholder="Enter subject">
+                            </div>
+                            <div class="form-group" id="messageGroup" style="display: none;">
+                                <label>Message</label>
+                                <textarea id="notificationMessage" rows="4" placeholder="Enter your message"></textarea>
+                            </div>
+                            <button class="btn btn-primary btn-large" onclick="sendManualNotification()">
+                                📤 Send Notification
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📜 Notification History</h3>
+                    <div class="notification-filters">
+                        <select id="notificationHistoryFilter" onchange="loadNotificationHistory()">
+                            <option value="all">All Notifications</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                    <div id="notificationHistory"></div>
+                </div>
+
+                <div class="card">
+                    <h3>⚙️ Notification Settings</h3>
+                    <div class="form-section">
+                        <div class="notification-settings">
+                            <div class="setting-item">
+                                <div>
+                                    <h4>Daily Attendance Summary</h4>
+                                    <p>Send students their daily attendance summary</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dailySummary" onchange="saveNotificationSettings()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <h4>Low Attendance Warning</h4>
+                                    <p>Alert students when attendance falls below threshold</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="lowAttendanceWarning" onchange="saveNotificationSettings()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group" style="max-width: 300px;">
+                                <label>Attendance Threshold (%)</label>
+                                <input type="number" id="attendanceThreshold" value="75" min="1" max="100" onchange="saveNotificationSettings()">
+                            </div>
+                            <div class="setting-item">
+                                <div>
+                                    <h4>Weekend Class Reminders</h4>
+                                    <p>Send reminders for weekend classes</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="weekendReminders" onchange="saveNotificationSettings()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Notifications -->
+                <div class="card">
+                    <h3>📅 Scheduled Notifications</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Automatic notifications scheduled to be sent</p>
+                    <div id="upcomingNotifications"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- In-App Notification Toast -->
+    <div id="notificationToast" class="notification-toast"></div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Student</h2>
+                <span class="close" onclick="closeModal('addStudentModal')">&times;</span>
+            </div>
+            <form id="addStudentForm">
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" id="studentId" required>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="studentEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="studentDepartment" required>
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <select id="studentYear" required>
+                        <option value="1">Year 1</option>
+                        <option value="2">Year 2</option>
+                        <option value="3">Year 3</option>
+                        <option value="4">Year 4</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Student</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div id="addCourseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Course</h2>
+                <span class="close" onclick="closeModal('addCourseModal')">&times;</span>
+            </div>
+            <form id="addCourseForm">
+                <div class="form-group">
+                    <label>Course Code</label>
+                    <input type="text" id="courseCode" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <input type="text" id="courseName" required>
+                </div>
+                <div class="form-group">
+                    <label>Instructor</label>
+                    <input type="text" id="courseInstructor" required>
+                </div>
+                <div class="form-group">
+                    <label>Credits</label>
+                    <input type="number" id="courseCredits" min="1" max="6" required>
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="courseDepartment" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Course</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Schedule Modal -->
+    <div id="addScheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Class Schedule</h2>
+                <span class="close" onclick="closeModal('addScheduleModal')">&times;</span>
+            </div>
+            <form id="addScheduleForm">
+                <div class="form-group">
+                    <label>Course</label>
+                    <select id="scheduleCourse" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Day of Week</label>
+                    <select id="scheduleDay" required>
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" id="scheduleStartTime" required>
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" id="scheduleEndTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Room</label>
+                    <input type="text" id="scheduleRoom" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Schedule</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

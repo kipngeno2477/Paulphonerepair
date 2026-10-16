@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
+
+const ADMIN_PHONE = '+254 743 220999';
+const ADMIN_WHATSAPP = '254743220999';
 
 const Footer = () => {
   return (
@@ -11,7 +14,7 @@ const Footer = () => {
               PAUL <span className="text-[var(--electric-blue)]">PHONE CARE</span>
             </h3>
             <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-              Quality electronics, professional repairs, and reliable technology solutions—all under one roof. Your trusted technology partner in Kenya.
+              Quality electronics, professional device repairs, and reliable technology solutions—all under one roof. Your trusted technology partner in Eldoret, Kenya.
             </p>
           </div>
 
@@ -19,7 +22,7 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
             <ul className="space-y-2">
               <li><Link to="/shop" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">Shop Electronics</Link></li>
-              <li><Link to="/repairs" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">Book a Repair</Link></li>
+              <li><Link to="/book-repair" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">Book a Repair</Link></li>
               <li><Link to="/track-repair" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">Track Your Repair</Link></li>
               <li><Link to="/sell-device" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">Sell Your Device</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-[var(--electric-blue)] transition-colors text-sm">About Us</Link></li>
@@ -29,16 +32,16 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white">Our Services</h4>
             <ul className="space-y-2">
-              <li className="text-gray-400 text-sm">Smartphone Repair</li>
-              <li className="text-gray-400 text-sm">Laptop Maintenance</li>
-              <li className="text-gray-400 text-sm">TV Repair</li>
-              <li className="text-gray-400 text-sm">Software Installation</li>
-              <li className="text-gray-400 text-sm">Electronics Sales</li>
+              <li className="text-gray-400 text-sm">Smartphone Screen & Battery Repair</li>
+              <li className="text-gray-400 text-sm">Laptop Diagnostics & Upgrades</li>
+              <li className="text-gray-400 text-sm">TV & Sound System Repair</li>
+              <li className="text-gray-400 text-sm">Micro-Soldering & IC Replacement</li>
+              <li className="text-gray-400 text-sm">Genuine Electronics Retail</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Contact Us</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white">Contact Attendant</h4>
             <ul className="space-y-4">
               <li className="flex items-start">
                 <MapPin size={20} className="mr-2 text-[var(--electric-blue)] flex-shrink-0" />
@@ -46,7 +49,20 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Phone size={20} className="mr-2 text-[var(--electric-blue)] flex-shrink-0" />
-                <span className="text-gray-400 text-sm">0799 902 607<br />0799 902 607</span>
+                <a href={`tel:${ADMIN_PHONE.replace(/\s+/g, '')}`} className="text-gray-400 hover:text-white text-sm">
+                  {ADMIN_PHONE}
+                </a>
+              </li>
+              <li className="flex items-center">
+                <MessageCircle size={20} className="mr-2 text-[#25D366] flex-shrink-0" />
+                <a 
+                  href={`https://wa.me/${ADMIN_WHATSAPP}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-gray-400 hover:text-green-400 text-sm"
+                >
+                  WhatsApp: {ADMIN_PHONE}
+                </a>
               </li>
               <li className="flex items-center">
                 <Mail size={20} className="mr-2 text-[var(--electric-blue)] flex-shrink-0" />
@@ -56,9 +72,12 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
             &copy; {new Date().getFullYear()} Paul Phone Care. All rights reserved.
+          </p>
+          <p className="text-gray-500 text-sm">
+            Shop Attendant Direct Line: <span className="text-[var(--electric-blue)] font-semibold">{ADMIN_PHONE}</span>
           </p>
         </div>
       </div>

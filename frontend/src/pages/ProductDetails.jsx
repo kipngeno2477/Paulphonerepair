@@ -1,7 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
 import { products } from '../data/products';
 import { useState } from 'react';
-import { ShoppingCart, Heart, Star, CheckCircle, MessageCircle } from 'lucide-react';
+import { ShoppingCart, Heart, Star, CheckCircle, MessageCircle, Phone } from 'lucide-react';
+
+const ADMIN_PHONE = '+254 743 220999';
+const ADMIN_WHATSAPP = '254743220999';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,7 +25,7 @@ const ProductDetails = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Image */}
-          <div className="bg-gray-50 rounded-3xl overflow-hidden aspect-square flex items-center justify-center p-8">
+          <div className="bg-gray-50 rounded-3xl overflow-hidden aspect-square flex items-center justify-center p-8 border border-gray-100">
             <img src={product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
           </div>
 
@@ -56,7 +59,7 @@ const ProductDetails = () => {
             <div className="mb-8">
               <div className="flex items-center gap-2 text-green-600 mb-4">
                 <CheckCircle size={20} />
-                <span className="font-medium">{product.inStock ? 'In Stock and ready to ship' : 'Out of Stock'}</span>
+                <span className="font-medium">{product.inStock ? 'Available in Store (Langas Studio)' : 'Out of Stock'}</span>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -66,24 +69,35 @@ const ProductDetails = () => {
                   <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-3 text-gray-500 hover:text-[var(--navy)]">+</button>
                 </div>
                 
-                <button className="flex-1 bg-[var(--navy)] hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                <button className="flex-1 bg-[var(--navy)] hover:bg-blue-900 text-white font-bold py-3.5 px-8 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
                   <ShoppingCart size={20} /> Add to Cart
                 </button>
                 
-                <button className="p-3 border border-gray-300 rounded-xl hover:bg-gray-50 text-gray-500 transition-colors">
+                <button className="p-3.5 border border-gray-300 rounded-xl hover:bg-gray-50 text-gray-500 transition-colors">
                   <Heart size={24} />
                 </button>
               </div>
             </div>
 
-            <a 
-              href={`https://wa.me/254799902607?text=Hello%20PAUL%20PHONE%20CARE,%20I%20am%20interested%20in%20${encodeURIComponent(product.name)}.%20Is%20it%20available?`}
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="mt-4 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 font-bold py-3 px-8 rounded-xl transition-all flex items-center justify-center gap-2"
-            >
-              <MessageCircle size={20} /> WhatsApp Inquiry
-            </a>
+            {/* Direct Admin Inquiry Buttons */}
+            <div className="space-y-3 pt-4 border-t border-gray-100">
+              <a 
+                href={`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(`Hello Paul Phone Care, I am interested in purchasing ${product.name} (KES ${product.price.toLocaleString()}). Is it in stock at Langas Studio?`)}`}
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full bg-[#25D366] hover:bg-green-600 text-white font-bold py-3.5 px-6 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"
+              >
+                <MessageCircle size={20} /> Ask Admin on WhatsApp ({ADMIN_PHONE})
+              </a>
+
+              <a 
+                href={`tel:${ADMIN_PHONE.replace(/\s+/g, '')}`}
+                className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 border border-gray-200 text-sm"
+              >
+                <Phone size={18} /> Call Shop Directly {ADMIN_PHONE}
+              </a>
+            </div>
+
           </div>
         </div>
       </div>
