@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Wrench, CheckCircle, Upload, MessageCircle, Phone, Copy, Check, ArrowRight } from 'lucide-react';
+import { Wrench, CheckCircle, Upload, MessageCircle, Phone, Copy, Check, ArrowRight, Video } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import shop1Img from '../assets/shop1.jpg';
+import VideoPlayer from '../components/VideoPlayer';
 
 const ADMIN_PHONE = '+254 743 220999';
 const ADMIN_WHATSAPP = '254743220999';
@@ -235,6 +236,38 @@ Hello Admin Paul, I have booked a repair on your website with the details above.
               <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-lg">
                 <CheckCircle size={14} className="text-green-400" /> Free Diagnostics & Fair Quotes
               </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Watch How We Service Your Device Card */}
+        <div className="mb-8 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
+          <div className="flex flex-col md:flex-row gap-6 items-center">
+            <div className="w-full md:w-5/12 flex-shrink-0">
+              <VideoPlayer
+                src="/videos/vid-2.mp4"
+                badge="Repair Bench"
+                title="Paul at the Bench"
+                subtitle="Live Motherboard & Screen Repair"
+                autoPlay={false}
+                loop={true}
+              />
+            </div>
+            <div className="flex-grow">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider mb-2">
+                <Video size={14} /> Workbench Assurance
+              </span>
+              <h3 className="text-xl font-bold text-[var(--navy)] mb-2">
+                See How Your Device Gets Repaired
+              </h3>
+              <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                We handle every phone, tablet, and laptop with precision tools, static-safe mats, and microscopes. Fill the quick form below to schedule your inspection with Admin Paul.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                <span className="bg-gray-100 px-3 py-1.5 rounded-lg font-medium">✓ Micro-soldering</span>
+                <span className="bg-gray-100 px-3 py-1.5 rounded-lg font-medium">✓ Genuine Parts</span>
+                <span className="bg-gray-100 px-3 py-1.5 rounded-lg font-medium">✓ Same-day Screen Repairs</span>
+              </div>
             </div>
           </div>
         </div>

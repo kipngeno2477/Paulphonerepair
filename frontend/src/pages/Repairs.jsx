@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Smartphone, Battery, Zap, Droplets, Download, Unlock, Cpu, Wifi, Laptop, Tv, Monitor, Wrench, MessageCircle, Phone } from 'lucide-react';
+import { Smartphone, Battery, Zap, Droplets, Download, Unlock, Cpu, Wifi, Laptop, Tv, Monitor, Wrench, MessageCircle, Phone, CheckCircle, ShieldCheck, Video } from 'lucide-react';
+import VideoPlayer from '../components/VideoPlayer';
 
 const ADMIN_PHONE = '+254 743 220999';
 const ADMIN_WHATSAPP = '254743220999';
@@ -46,6 +47,85 @@ const Repairs = () => {
               </Link>
             </div>
           ))}
+        </div>
+
+        {/* Live Video Demonstration & Workshop Section */}
+        <div className="mt-20 bg-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-slate-800">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-4 border border-blue-400/30">
+                <Video size={16} /> Workshop Demo Video
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+                Watch Our Technicians in Action
+              </h2>
+              <p className="text-gray-300 text-base sm:text-lg mb-6 leading-relaxed">
+                Watch technician Paul diagnosing circuit boards, testing replacement displays, and soldering micro-components at Langas Studio. Every repair undergoes rigorous testing before you pick it up.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="text-[var(--electric-blue)] flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Micro-Soldering</h4>
+                    <p className="text-xs text-gray-400">IC replacement, short circuit recovery, and board diagnostics</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="text-[var(--electric-blue)] flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Tested Spare Parts</h4>
+                    <p className="text-xs text-gray-400">Guaranteed original screens, high-capacity batteries, and flex cables</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="text-[var(--electric-blue)] flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Express Turnaround</h4>
+                    <p className="text-xs text-gray-400">Same-day screen and battery replacements on common models</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="text-[var(--electric-blue)] flex-shrink-0 mt-0.5" size={20} />
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Warranty Included</h4>
+                    <p className="text-xs text-gray-400">Full technician warranty backed by direct admin support</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/book-repair"
+                  className="bg-[var(--electric-blue)] hover:bg-blue-400 text-[var(--navy)] font-bold py-3.5 px-6 rounded-xl transition-all"
+                >
+                  Book Your Repair Now
+                </Link>
+                <a
+                  href={`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent('Hello Paul, I saw your repair video and would like a quote for my device.')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#25D366] hover:bg-green-600 text-white font-bold py-3.5 px-6 rounded-xl transition-all flex items-center gap-2"
+                >
+                  <MessageCircle size={18} /> WhatsApp Paul ({ADMIN_PHONE})
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <VideoPlayer
+                src="/videos/vid-2.mp4"
+                badge="Workshop Live Demo"
+                title="Paul's Repair Bench"
+                subtitle="Motherboard & Screen Diagnostics"
+                autoPlay={false}
+                loop={true}
+                className="shadow-2xl border-white/20"
+              />
+            </div>
+
+          </div>
         </div>
 
         <div className="mt-20 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-10 text-center border border-blue-100">

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { products, categories } from '../data/products';
-import { ShoppingCart, Heart, Search, Filter, MessageCircle, Sparkles, Volume2, Phone } from 'lucide-react';
+import { ShoppingCart, Heart, Search, Filter, MessageCircle, Sparkles, Volume2, Phone, Video } from 'lucide-react';
 import { motion } from 'framer-motion';
+import VideoPlayer from '../components/VideoPlayer';
 
 // WhatsApp images for the featured audio banner
 import waSoundRigGreen from '../assets/WhatsApp Image 2026-10-16 at 22.38.51.jpeg';
@@ -168,6 +169,22 @@ const Shop = () => {
                 >
                   <MessageCircle size={14} /> WhatsApp Attendant
                 </a>
+              </div>
+
+              {/* Store Video Preview */}
+              <div className="mt-8 pt-6 border-t border-gray-100">
+                <div className="flex items-center gap-2 mb-3">
+                  <Video size={16} className="text-[var(--light-blue)]" />
+                  <p className="text-xs uppercase tracking-wider font-bold text-[var(--navy)]">Live Store Display</p>
+                </div>
+                <VideoPlayer
+                  src="/videos/demo-vid.mp4"
+                  badge="Store Tour"
+                  title="Paul Phone Care Store"
+                  subtitle="Langas Studio, Eldoret"
+                  autoPlay={false}
+                  loop={true}
+                />
               </div>
             </div>
           </div>

@@ -1,0 +1,17 @@
+# Dependencies & Build
+node_modules/
+dist/
+
+# Root media & documents
+/*.mp4
+/*.pdf
+
+# Logs & Environment
+*.log
+.env
+.env.local
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
